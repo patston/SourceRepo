@@ -43,6 +43,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: patston/ConfigRepo
+          token: ${{ secrets.MY_TOKEN }}
 
       - name: Update
         run: |

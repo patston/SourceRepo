@@ -13,42 +13,42 @@ jobs:
 
     steps:
       - name: Checkout repo
-      uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: patston/web-app:latest, patston/web-app:${{ inputs.tag }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: patston/web-app:latest, patston/web-app:${{ inputs.tag }}
 
   kubernetesCI:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-      uses: actions/checkout@v4
-      with:
-        repository: ConfigRepo
+        uses: actions/checkout@v4
+        with:
+          repository: ConfigRepo
 
       - name: Update
-      run: |
-        git config user.name "patston" && \
-        git config user.email "patryk.ston@pollub.edu.pl" && \
-        sed -i "s/web-app:/web-app:\${{ inputs.tag }}/" deployment.yaml && \
-        git add deployment.yaml && \
-        git commit -m "Update Docker image version to ${{ inputs.tag }}" && \
-        git push origin main
+        run: |
+          git config user.name "patston" && \
+          git config user.email "patryk.ston@pollub.edu.pl" && \
+          sed -i "s/web-app:/web-app:\${{ inputs.tag }}/" deployment.yaml && \
+          git add deployment.yaml && \
+          git commit -m "Update Docker image version to ${{ inputs.tag }}" && \
+          git push origin main

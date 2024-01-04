@@ -42,7 +42,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          repository: ConfigRepo
+          repository: patston/ConfigRepo
 
       - name: Update
         run: |

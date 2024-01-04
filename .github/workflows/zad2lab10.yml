@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "patston" && \
           git config user.email "patryk.ston@pollub.edu.pl" && \
-          sed -i 's/web-app:/web-app:${{ inputs.tag }}/' deployment.yaml && \
+          sed -E -i 's/web-app:[0-9]+\.[0-9]+/web-app:${{ inputs.tag }}/' deployment.yaml && \
           git add deployment.yaml && \
           git commit -m "Update Docker image version to ${{ inputs.tag }}" && \
           git push origin main
